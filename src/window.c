@@ -276,17 +276,24 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 	g_object_ref (file);
 	priv->file = file;
 
-	char *xml;
-	gsize xml_len;
-	if (!g_file_load_contents (file, NULL, &xml, &xml_len, NULL, NULL))
+	char *data;
+	gsize data_len;
+	if (!g_file_load_contents (file, NULL, &data, &data_len, NULL, NULL))
 	{
 		g_warning ("Failed to load file\n");
 		return FALSE;
 	}
 
 	plist_t root_node = NULL;
-	plist_from_xml (xml, xml_len, &root_node);
-	g_free (xml);
+
+	char *file_path = g_file_get_path (file);
+	if (g_str_has_suffix (file_path, ".bin"))
+		plist_from_bin (data, data_len, &root_node);
+	else
+		plist_from_xml (data, data_len, &root_node);
+
+	g_free (file_path);
+	g_free (data);
 	if (!root_node)
 	{
 		g_warning ("Failed to parse file\n");
