@@ -70,7 +70,6 @@ find_window_to_open (PvApp *app, GFile *new_file)
 	}
 
 	return pv_appwin_new (app);
-;
 }
 
 static void

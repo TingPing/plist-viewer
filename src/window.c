@@ -40,9 +40,23 @@ typedef struct _PvAppwinPrivate
 G_DEFINE_TYPE_WITH_PRIVATE(PvAppwin, pv_appwin, GTK_TYPE_APPLICATION_WINDOW)
 
 static void
+pv_appwin_finalize (GObject *obj)
+{
+	PvAppwinPrivate *priv = pv_appwin_get_instance_private (PV_APPWIN(obj));
+
+	if (priv->file)
+		g_object_unref (priv->file);
+
+	G_OBJECT_CLASS (pv_appwin_parent_class)->finalize (obj);
+}
+
+static void
 pv_appwin_class_init (PvAppwinClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
+	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+
+	obj_class->finalize = pv_appwin_finalize;
 
 	gtk_widget_class_set_template_from_resource (wid_class, "/se/tingping/plist-viewer/ui/window.ui");
 	gtk_widget_class_bind_template_child_private (wid_class, PvAppwin, treeview);
@@ -318,12 +332,7 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 static void
 pv_appwin_init (PvAppwin *win)
 {
-	PvAppwinPrivate *priv = pv_appwin_get_instance_private (win);
-
-	priv->file = NULL;
-
 	gtk_widget_init_template (GTK_WIDGET(win));
-	
 }
 
 PvAppwin *
