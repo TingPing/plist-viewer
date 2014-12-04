@@ -1,0 +1,5 @@
+data/gtk/menus.ui
+data/plist-viewer.desktop.in
+data/ui/window.ui
+src/app.c
+src/window.c

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 
+
+Plist Viewer - Viewer of Plists
+Copyright (C) TingPing
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+Author: TingPing
+
+-->
+<interface domain="">
+  <requires lib="gtk+" version="3.10"/>
+  <!-- interface-license-type gplv2 -->
+  <!-- interface-name Plist Viewer -->
+  <!-- interface-description Viewer of Plists -->
+  <!-- interface-copyright TingPing -->
+  <!-- interface-authors TingPing -->
+  <object class="GtkTreeStore" id="treestore">
+    <columns>
+      <!-- column-name key -->
+      <column type="gchararray"/>
+      <!-- column-name value -->
+      <column type="gchararray"/>
+      <!-- column-name type -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="typestore">
+    <columns>
+      <!-- column-name type -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Boolean</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">UInt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Real</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">String</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Array</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Dictionary</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Date</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Data</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Key</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">UID</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+    </data>
+  </object>
+  <template class="PvAppwin" parent="GtkApplicationWindow">
+    <property name="can_focus">False</property>
+    <property name="default_width">720</property>
+    <property name="default_height">480</property>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTreeView" id="treeview">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">treestore</property>
+            <property name="search_column">0</property>
+            <property name="enable_grid_lines">both</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="treeview-selection"/>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="keycolumn">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Key</property>
+                <child>
+                  <object class="GtkCellRendererText" id="keycellrenderer"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="valuecolumn">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Value</property>
+                <property name="expand">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="valuecellrenderer"/>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="typecolumn">
+                <property name="sizing">autosize</property>
+                <property name="min_width">80</property>
+                <property name="title" translatable="yes">Type</property>
+                <child>
+                  <object class="GtkCellRendererCombo" id="typecellrenderer">
+                    <property name="model">typestore</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">2</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

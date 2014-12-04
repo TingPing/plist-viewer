@@ -1,0 +1,7 @@
+[Desktop Entry]
+_Name=Plist Viewer
+Exec=plist-viewer %F
+Icon=text-x-generic
+Terminal=false
+Type=Application
+MimeType=application/x-plist;

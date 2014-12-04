@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+	<gresource prefix="/se/tingping/plist-viewer">
+		<!-- Glade files -->
+		<file preprocess="xml-stripblanks" compressed="true">ui/window.ui</file>
+		<!-- menu files -->
+		<file preprocess="xml-stripblanks" compressed="true">gtk/menus.ui</file>
+		<!-- icons -->
+	</gresource>
+</gresources>

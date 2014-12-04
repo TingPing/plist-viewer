@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+	<id type="desktop">plist-viewer.desktop</id>
+	<licence>CC0</licence>
+	<description>
+		<p>Simple application to view plist files</p>
+	</description>
+	<url type="homepage">http://github.com/tingping/plist-viewer</url>
+	<screenshots>
+		<screenshot type="default">https://i.imgur.com/rzdC607.png</screenshot>
+	</screenshots>
+	<updatecontact>tingping_at_fedoraproject.org</updatecontact>
+</application>
