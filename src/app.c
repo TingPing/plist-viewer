@@ -92,8 +92,9 @@ pv_app_openfile (GSimpleAction *action, GVariant *param, gpointer userdata)
 
 	/* These duplicate the mime_type above, but are more portable */
 	gtk_file_filter_add_pattern (filter, "*.plist");
-	gtk_file_filter_add_pattern (filter, "*.plist.bin");
-	gtk_file_filter_add_pattern (filter, "*.plist.*.bin");
+	gtk_file_filter_add_pattern (filter, "*.plist.*");
+	gtk_file_filter_add_pattern (filter, "*.bplist");
+	gtk_file_filter_add_pattern (filter, "*.xml");
 
 	gtk_file_chooser_add_filter (dialog, filter);
 	gtk_file_chooser_set_select_multiple (dialog, TRUE);

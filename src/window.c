@@ -311,13 +311,20 @@ pv_appwin_get_file (PvAppwin *win)
 }
 
 static void
-pv_appwin_update_title (PvAppwin *win, char *file_name)
+pv_appwin_update_title (PvAppwin *win, GFile *file)
 {
-	char *base_name = g_path_get_basename (file_name);
-	char *new_title = g_strdup_printf ("%s (%s)", g_get_application_name (), base_name);
+	char *base_name, *file_path, *new_title;
+
+	file_path = g_file_get_path (file);
+	if (!file_path)
+		return;
+
+	base_name = g_path_get_basename (file_path);
+	new_title = g_strdup_printf ("%s (%s)", g_get_application_name (), base_name);
 
 	gtk_window_set_title (GTK_WINDOW(win), new_title);
 
+	g_free (file_path);
 	g_free (base_name);
 	g_free (new_title);
 }
@@ -357,21 +364,13 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 
 	plist_t root_node = NULL;
 
-	char *file_path = g_file_get_path (file);
-	if (!file_path)
-	{
-		g_warning ("Failed to get file path\n");
-		return FALSE;
-	}
-	pv_appwin_update_title (win, file_path);
-
-	if (g_str_has_suffix (file_path, ".bin"))
+	if (g_str_has_prefix (data, "bplist00"))
 		plist_from_bin (data, data_len, &root_node);
 	else
 		plist_from_xml (data, data_len, &root_node);
 
-	g_free (file_path);
 	g_free (data);
+
 	if (!root_node)
 	{
 		g_warning ("Failed to parse file\n");
@@ -389,6 +388,8 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 	GtkTreePath *path = gtk_tree_path_new_first ();
 	gtk_tree_view_expand_row (priv->treeview, path, FALSE);
 	gtk_tree_path_free (path);
+
+	pv_appwin_update_title (win, file);
 
 	return TRUE;
 }

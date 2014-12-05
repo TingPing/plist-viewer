@@ -5,7 +5,8 @@
    <sub-class-of type="application/xml" />
    <icon name="text-x-generic" />
    <glob pattern="*.plist" weight="100" />
-   <glob pattern="*.plist.bin" weight="100" />
-   <glob pattern="*.plist.*.bin" weight="100" />
+   <glob pattern="*.plist.*" weight="100" />
+   <glob pattern="*.bplist" weight="100" />
+   <glob pattern="*.xml" weight="10" />
   </mime-type>
  </mime-info>
