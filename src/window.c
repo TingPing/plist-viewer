@@ -330,6 +330,21 @@ pv_appwin_update_title (PvAppwin *win, GFile *file)
 	g_free (new_title);
 }
 
+static void
+pv_appwin_show_error (PvAppwin *win, char *error)
+{
+	GtkWidget *dialog;
+
+	dialog = gtk_message_dialog_new (GTK_WINDOW(win),
+								GTK_DIALOG_MODAL,
+								GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+								error, NULL);
+
+	gtk_window_present (GTK_WINDOW(win));
+	gtk_dialog_run (GTK_DIALOG(dialog));
+	gtk_widget_destroy (dialog);
+}
+
 gboolean
 pv_appwin_set_file (PvAppwin *win, GFile *file)
 {
@@ -346,7 +361,7 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 		if (priv->file == file)
 		{
 			g_warning ("New file is same as old file\n");
-			return FALSE;
+			return TRUE;
 		}
 		g_object_unref (priv->file);
 		gtk_tree_store_clear (store);
@@ -357,9 +372,11 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 
 	char *data;
 	gsize data_len;
-	if (!g_file_load_contents (file, NULL, &data, &data_len, NULL, NULL))
+	GError *err = NULL;
+	if (!g_file_load_contents (file, NULL, &data, &data_len, NULL, &err))
 	{
-		g_warning ("Failed to load file\n");
+		pv_appwin_show_error (win, err->message);
+		g_clear_error (&err);
 		return FALSE;
 	}
 
@@ -374,7 +391,7 @@ pv_appwin_set_file (PvAppwin *win, GFile *file)
 
 	if (!root_node)
 	{
-		g_warning ("Failed to parse file\n");
+		pv_appwin_show_error (win, _("Failed to parse plist file"));
 		return FALSE;
 	}
 
