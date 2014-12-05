@@ -250,6 +250,7 @@ parse_plist_into_treestore (GtkTreeStore *store, GtkTreeIter *iter, plist_t node
 				free (key);
 			}
 
+			free (dict_iter);
 			break;
 		}
 		case PLIST_DATE:
