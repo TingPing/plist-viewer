@@ -37,7 +37,43 @@ typedef struct _PvAppwinPrivate
 	GFile *file;
 } PvAppwinPrivate;
 
+enum
+{
+	PROP_0,
+	PROP_FILE,
+	N_PROPERTIES
+};
+
+
 G_DEFINE_TYPE_WITH_PRIVATE(PvAppwin, pv_appwin, GTK_TYPE_APPLICATION_WINDOW)
+
+static void
+pv_appwin_set_property (GObject *obj, guint property, const GValue *value, GParamSpec *pspec)
+{
+	switch (property)
+	{
+		case PROP_FILE:
+			pv_appwin_set_file (PV_APPWIN(obj), g_value_get_object (value));
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property, pspec);
+			break;
+	}
+}
+
+static void
+pv_appwin_get_property (GObject *obj, guint property, GValue *value, GParamSpec *pspec)
+{
+	switch (property)
+	{
+		case PROP_FILE:
+			g_value_set_object (value, pv_appwin_get_file (PV_APPWIN(obj)));
+			break;
+		default:
+			G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property, pspec);
+			break;
+	}
+}
 
 static void
 pv_appwin_finalize (GObject *obj)
@@ -55,8 +91,17 @@ pv_appwin_class_init (PvAppwinClass *klass)
 {
 	GtkWidgetClass *wid_class = GTK_WIDGET_CLASS(klass);
 	GObjectClass *obj_class = G_OBJECT_CLASS(klass);
+	GParamSpec *obj_properties[N_PROPERTIES] = { NULL };
 
 	obj_class->finalize = pv_appwin_finalize;
+	obj_class->set_property = pv_appwin_set_property;
+	obj_class->get_property = pv_appwin_get_property;
+
+	obj_properties[PROP_FILE] = g_param_spec_object ("file",
+                        "plist file", "file to show in the window",
+						G_TYPE_FILE, G_PARAM_READWRITE);
+
+	g_object_class_install_properties (obj_class, N_PROPERTIES, obj_properties);
 
 	gtk_widget_class_set_template_from_resource (wid_class, "/se/tingping/plist-viewer/ui/window.ui");
 	gtk_widget_class_bind_template_child_private (wid_class, PvAppwin, treeview);
