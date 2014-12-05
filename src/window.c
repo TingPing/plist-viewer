@@ -184,7 +184,7 @@ parse_plist_into_treestore (GtkTreeStore *store, GtkTreeIter *iter, plist_t node
 			guint64 val_len;
 
 			plist_get_data_val (node, &val, &val_len);
-			/* FIXME: This can be full of garbage */
+			val[val_len] = '\0';
 			gtk_tree_store_set (store, iter, COL_VALUE, val, -1);
 
 			free (val);
