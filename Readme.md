@@ -21,6 +21,10 @@ make -s
 sudo make install
 ```
 
+### Windows
+
+See [releases](https://github.com/TingPing/plist-viewer/releases) for Windows binaries.
+
 Todo
 ----
 
