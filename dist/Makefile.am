@@ -11,3 +11,5 @@ $(installer): win32-installer.nsi
 if HOST_WINDOWS
 dist-hook: $(installer)
 endif
+
+EXTRA_DIST = win32-installer.nsi
