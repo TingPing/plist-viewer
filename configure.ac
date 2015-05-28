@@ -7,36 +7,49 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_CC_C99
 AC_PROG_INSTALL
 AC_PATH_PROG([MAKENSIS], [makensis], [no])
-
-IT_PROG_INTLTOOL([0.40.0])
+AC_PATH_PROG(GLIB_COMPILE_RESOURCES, glib-compile-resources)
 
 AM_INIT_AUTOMAKE([1.11 silent-rules tar-pax dist-xz no-dist-gzip subdir-objects no-define foreign -Wall])
 AM_SILENT_RULES([yes])
-AM_PATH_GLIB_2_0([2.40.0], , AC_MSG_ERROR(glib not found!), [gmodule gobject gio])
+
+GETTEXT_PACKAGE="plist-viewer"
+AC_SUBST([GETTEXT_PACKAGE])
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package name])
+IT_PROG_INTLTOOL([0.40.0])
 AM_GLIB_GNU_GETTEXT
 
+PKG_PROG_PKG_CONFIG
+PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.40 gio-2.0])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.10])
 PKG_CHECK_MODULES([LIBPLIST], [libplist])
 
 CFLAGS="$CFLAGS"
 HOST_WINDOWS=no
 
-case "${host_os}" in
-	*mingw*)
+AS_CASE([$host_os],
+	[*mingw*], [
 		CFLAGS="$CFLAGS -mwindows"
 		HOST_WINDOWS=yes
 		if test "$MAKESIS" = "no"; then
 			AC_MSG_WARN(makensis required for make dist)
 		fi
-	;;
-esac
+	]
+)
 
-#if test "$CC" = "clang"; then
-#    AC_SUBST([CFLAGS], ["$CFLAGS -Weverything -Wno-documentation -Wno-padded -Wno-unused-parameter -Wno-used-but-marked-unused"])
-if test "$CC" = "gcc" || test "$CC" = "clang"; then
-	CFLAGS="$CFLAGS -Wall -Wextra -Wno-unused-parameter"
-fi
-
+AX_APPEND_COMPILE_FLAGS([ \
+	-Wall \
+	-Wextra \
+	-Wno-padded \
+	-Wno-unused-parameter \
+	-Wstrict-prototypes \
+	-Werror=missing-prototypes \
+	-Werror=implicit-function-declaration \
+	-Werror=pointer-arith \
+	-Werror=init-self \
+	-Werror=format-security \
+	-Werror=format=2 \
+	-Werror=missing-include-dirs \
+])
 
 AM_CONDITIONAL(HOST_WINDOWS, test "$HOST_WINDOWS" = "yes")
 AC_SUBST([CFLAGS])
