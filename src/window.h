@@ -21,13 +21,9 @@
 #include <gtk/gtk.h>
 #include "app.h"
 
-#define PV_APPWIN_TYPE (pv_appwin_get_type ())
-#define PV_APPWIN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PV_APPWIN_TYPE, PvAppwin))
+#define PV_APPWIN_TYPE (pv_appwin_get_type())
+G_DECLARE_FINAL_TYPE (PvAppwin, pv_appwin, PV, APPWIN, GtkApplicationWindow)
 
-typedef struct _PvAppwin PvAppwin;
-typedef struct _PvAppwinClass PvAppwinClass;
-
-GType pv_appwin_get_type (void);
 PvAppwin *pv_appwin_new (PvApp *);
 gboolean pv_appwin_set_file (PvAppwin *, GFile *);
 GFile *pv_appwin_get_file (PvAppwin *);

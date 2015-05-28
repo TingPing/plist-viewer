@@ -20,11 +20,7 @@
 
 #include <gtk/gtk.h>
 
-#define PV_APP_TYPE (pv_app_get_type ())
-#define PV_APP(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PV_APP_TYPE, PvApp))
+#define PV_TYPE_APP (pv_app_get_type())
+G_DECLARE_FINAL_TYPE (PvApp, pv_app, PV, APP, GtkApplication)
 
-typedef struct _PvApp PvApp;
-typedef struct _PvAppClass PvAppClass;
-
-GType pv_app_get_type (void);
 PvApp *pv_app_new (void);

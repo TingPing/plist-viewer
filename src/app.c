@@ -16,22 +16,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  */
 
-#include <glib/gi18n.h>
-#include "app.h"
-#include "window.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+#include <glib/gi18n.h>
+#include "app.h"
+#include "window.h"
+
 struct _PvApp
 {
 	GtkApplication parent;
-};
-
-struct _PvAppClass
-{
-	GtkApplicationClass parent_class;
 };
 
 G_DEFINE_TYPE(PvApp, pv_app, GTK_TYPE_APPLICATION)

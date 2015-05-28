@@ -1,6 +1,6 @@
 bin_PROGRAMS = plist-viewer
 plist_viewer_SOURCES = main.c app.c window.c resources.c
-plist_viewer_CFLAGS = $(GLIB_CFLAGS) $(GTK_CFLAGS) $(LIBPLIST_CFLAGS)
+plist_viewer_CFLAGS = $(GLIB_CFLAGS) $(GTK_CFLAGS) $(LIBPLIST_CFLAGS) -DLOCALEDIR=\"$(datadir)/locale\"
 plist_viewer_LDADD = $(GLIB_LIBS) $(GTK_LIBS) $(LIBPLIST_LIBS)
 
 resources.c: $(top_srcdir)/data/plist-viewer.gresource.xml $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(top_srcdir)/data --generate-dependencies $(top_srcdir)/data/plist-viewer.gresource.xml)
